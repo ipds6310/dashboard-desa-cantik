@@ -138,7 +138,8 @@ with st.sidebar:
 datadesa1 = pd.DataFrame(datadesa.iloc[0:12,0:2])                       #convert ke panda df
 desa = datadesa1.style.hide(axis=0).hide(axis=1)                     #menyembunyikan nomor tabel dan header                                   #menyembunyikan header
 st.image('kelgunting.jpeg')
-st.write(desa.to_html(),unsafe_allow_html=True,use_container_width=True)         #menyembunyikan nomor tabel dari .to_html sampe True)
+# st.write(desa.to_html(),unsafe_allow_html=True,use_container_width=True)         #menyembunyikan nomor tabel dari .to_html sampe True)
+st.markdown(desa.to_html(index=False), unsafe_allow_html=True)
 
 
 st.title("📍 Peta Batas RT di Kabupaten Tanah Bumbu")
@@ -376,4 +377,5 @@ pd5.write('')
 st.write("**📧: gunungtinggikel@gmail.com**")
 urlkantor = 'https://maps.app.goo.gl/ovawuniWpb4gkhQs9'
 st.write("🏢: **[Jl. Dharma Praja, Pd. Butun, Kec. Batulicin, Kabupaten Tanah Bumbu, Kalimantan Selatan 72273, Kode Pos 72211](%s)**"%urlkantor)
+
 
