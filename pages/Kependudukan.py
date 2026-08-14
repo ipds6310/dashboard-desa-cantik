@@ -47,9 +47,9 @@ t2.markdown(f"**Halaman Kependudukan {config['nmdesa']}**")
 
 st.markdown("---")
 
-# ── Data Penduduk 2024 ─────────────────────────────────────────────────
+# ── Data Penduduk 2024 ─────────────────────────────────────────────
 section_header("Penduduk Berdasarkan Jenis Kelamin dan Kelompok Usia", "👥")
-pilih1 = st.radio('Tahun :', [str(int(datadesa.iloc[18, 1]))])
+pilih1 = st.radio('Tahun :', [str(int(datadesa.iloc[18, 1])), str(int(datadesa.iloc[19, 1]))], horizontal=True)
 
 url2 = config['url_penduduk']
 datap2024 = pd.DataFrame(conn.read(spreadsheet=url2, ttl=0))
@@ -57,60 +57,34 @@ datap2024.iloc[:, 1] = pd.to_numeric(datap2024.iloc[:, 1], errors='coerce')
 datap2024.iloc[:, 2] = pd.to_numeric(datap2024.iloc[:, 2], errors='coerce')
 jp2024 = datap2024.iloc[0:16, 1:3].sum().sum()
 
-datapiramida = datap2024.iloc[0:16, 1:3].copy()
-jk = ["Laki-laki", "Perempuan"]
-datapiramida.iloc[0:16, 0] = -datapiramida.iloc[0:16, 0]
-datapiramida.index = list(datap2024.iloc[0:16, 0])
-datapiramida.columns = jk
-
 url3 = config['url_penduduk_2023']
 datap2023 = pd.DataFrame(conn.read(spreadsheet=url3, ttl=0))
-jp2023 = datap2023.iloc[0:16, 1:3].sum().sum()
+datap2023.iloc[:, 1] = pd.to_numeric(datap2023.iloc[:, 1], errors='coerce')
+datap2023.iloc[:, 2] = pd.to_numeric(datap2023.iloc[:, 2], errors='coerce')
 
-datapiramida2 = datap2023.iloc[0:16, 1:3].copy()
-datapiramida2.iloc[0:16, 0] = -datapiramida2.iloc[0:16, 0]
-datapiramida2.index = list(datap2023.iloc[0:16, 0])
-datapiramida2.columns = jk
-
-import altair as alt
+# Ambil total penduduk dari baris rekap bawah (baris ke-21 / index 20)
+jp2023 = datap2023.iloc[20, 1]
+pd2023_laki = datap2023.iloc[21, 1]
+pd2023_pere = datap2023.iloc[22, 1]
 
 if pilih1 == str(int(datadesa.iloc[18, 1])):
-    data = pd.melt(datapiramida.reset_index(), id_vars=["index"])
-    chart = (
-        alt.Chart(data)
-        .mark_bar()
-        .encode(
-            x=alt.X("value", type="quantitative", title="", axis=alt.Axis(labels=False)),
-            y=alt.Y("index", type="nominal", title="Usia", sort="descending"),
-            color=alt.Color("variable", type="nominal", title=""),
-        )
-    )
-    st.altair_chart(chart, use_container_width=True)
     c1, c2, c3 = st.columns(3)
-    c1.metric("Total Penduduk",      str(int(jp2024))                        + " jiwa")
-    c2.metric("Laki-laki",           str(int(datap2024.iloc[0:16, 1].sum())) + " jiwa")
-    c3.metric("Perempuan",           str(int(datap2024.iloc[0:16, 2].sum())) + " jiwa")
+    c1.metric("Total Penduduk", str(int(jp2024)) + " jiwa")
+    c2.metric("Laki-laki", str(int(datap2024.iloc[0:16, 1].sum())) + " jiwa")
+    c3.metric("Perempuan", str(int(datap2024.iloc[0:16, 2].sum())) + " jiwa")
+    
     with st.expander("Lihat Tabel"):
         st.dataframe(datap2024.iloc[0:16, 0:3], use_container_width=True, hide_index=True)
 
 elif pilih1 == str(int(datadesa.iloc[19, 1])):
-    data2 = pd.melt(datapiramida2.reset_index(), id_vars=["index"])
-    chart2 = (
-        alt.Chart(data2)
-        .mark_bar()
-        .encode(
-            x=alt.X("value", type="quantitative", title="", axis=alt.Axis(labels=False)),
-            y=alt.Y("index", type="nominal", title="Usia", sort="descending"),
-            color=alt.Color("variable", type="nominal", title=""),
-        )
-    )
-    st.altair_chart(chart2, use_container_width=True)
     c1, c2, c3 = st.columns(3)
-    c1.metric("Total Penduduk", str(int(jp2023))                              + " jiwa")
-    c2.metric("Laki-laki",      str(int(datap2023.iloc[0:16, 1].sum().sum())) + " jiwa")
-    c3.metric("Perempuan",      str(int(datap2023.iloc[0:16, 2].sum().sum())) + " jiwa")
+    c1.metric("Total Penduduk", str(int(jp2023)) + " jiwa")
+    c2.metric("Laki-laki", str(int(pd2023_laki)) + " jiwa")
+    c3.metric("Perempuan", str(int(pd2023_pere)) + " jiwa")
+    
     with st.expander("Lihat Tabel"):
-        st.dataframe(datap2023.iloc[0:16, 0:3], use_container_width=True, hide_index=True)
+        # Menampilkan data rekap per RT (baris 1 s.d 14 / index 0:14)
+        st.dataframe(datap2023.iloc[0:14, 0:3], use_container_width=True, hide_index=True)
 
 st.markdown("---")
 
@@ -248,41 +222,6 @@ with st.expander("Lihat Tabel"):
     st.dataframe(et23, use_container_width=True)
 
 st.markdown("---")
-
-# ── Agama ──────────────────────────────────────────────────────────────
-section_header(f"Penduduk Menurut Agama Tahun {int(datadesa.iloc[19, 1])}", "🕊️")
-
-url7 = config['url_agama']
-agam23 = pd.DataFrame(conn.read(spreadsheet=url7, ttl=0))
-agam23.index = list(agam23.iloc[0:9, 0])
-agam23 = agam23.iloc[0:8, 1:4]
-
-pilih6 = st.radio("Pilih Jenis Kelamin:", ['Laki & Perempuan', 'Laki-laki', 'Perempuan'], key="agama")
-if pilih6 == 'Laki & Perempuan':
-    datatp5 = agam23.iloc[0:8, 2]
-elif pilih6 == 'Laki-laki':
-    datatp5 = agam23.iloc[0:8, 0]
-else:
-    datatp5 = agam23.iloc[0:8, 1]
-
-datatp5 = pd.melt(datatp5.reset_index(), id_vars=["index"])
-agam0 = st.checkbox("Sembunyikan data bernilai 0", value=True, key="agam0")
-if agam0:
-    datatp5 = datatp5[datatp5['value'] != 0]
-
-charttp5 = (
-    alt.Chart(datatp5, title=alt.TitleParams(pilih6, anchor='middle'))
-    .mark_bar()
-    .encode(
-        x=alt.X("value", type="quantitative", title=""),
-        y=alt.Y("index", type="nominal", title=""),
-        color=alt.Color("variable", type="nominal", title="", legend=None),
-    )
-)
-text5 = charttp5.mark_text(align='left', baseline='middle', dx=3).encode(text='value')
-st.altair_chart(charttp5 + text5, use_container_width=True)
-with st.expander("Lihat Tabel"):
-    st.dataframe(agam23, use_container_width=True)
 
 # ── Sidebar ────────────────────────────────────────────────────────────
 with st.sidebar:
