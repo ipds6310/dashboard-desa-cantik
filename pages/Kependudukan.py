@@ -37,7 +37,7 @@ config = pilih_desa_sidebar()
 
 # ── Koneksi Data ───────────────────────────────────────────────────────
 conn = st.connection("gsheets", type=GSheetsConnection)
-datadesa = pd.DataFrame(conn.read(spreadsheet=config['url_data']))
+datadesa = pd.DataFrame(conn.read(spreadsheet=config['url_data'], ttl=0))
 
 # ── Header Halaman ─────────────────────────────────────────────────────
 t1, t2 = st.columns((0.18, 1))
@@ -52,7 +52,7 @@ section_header("Penduduk Berdasarkan Jenis Kelamin dan Kelompok Usia", "👥")
 pilih1 = st.radio('Tahun :', [str(int(datadesa.iloc[18, 1]))])
 
 url2 = config['url_penduduk']
-datap2024 = pd.DataFrame(conn.read(spreadsheet=url2))
+datap2024 = pd.DataFrame(conn.read(spreadsheet=url2, ttl=0))
 datap2024.iloc[:, 1] = pd.to_numeric(datap2024.iloc[:, 1], errors='coerce')
 datap2024.iloc[:, 2] = pd.to_numeric(datap2024.iloc[:, 2], errors='coerce')
 jp2024 = datap2024.iloc[0:16, 1:3].sum().sum()
@@ -64,7 +64,7 @@ datapiramida.index = list(datap2024.iloc[0:16, 0])
 datapiramida.columns = jk
 
 url3 = config['url_penduduk_2023']
-datap2023 = pd.DataFrame(conn.read(spreadsheet=url3))
+datap2023 = pd.DataFrame(conn.read(spreadsheet=url3, ttl=0))
 jp2023 = datap2023.iloc[0:16, 1:3].sum().sum()
 
 datapiramida2 = datap2023.iloc[0:16, 1:3].copy()
@@ -116,7 +116,7 @@ st.markdown("---")
 
 # ── Angkatan Kerja ─────────────────────────────────────────────────────
 url4 = config['url_pekerjaan']
-kerja23 = pd.DataFrame(conn.read(spreadsheet=url4))
+kerja23 = pd.DataFrame(conn.read(spreadsheet=url4, ttl=0))
 stkerja23 = kerja23.iloc[16:18, 0:4].copy()
 kerja23 = kerja23.iloc[0:13, 0:4]
 
@@ -183,7 +183,7 @@ st.markdown("---")
 section_header(f"Pendidikan Tenaga Kerja Tahun {int(datadesa.iloc[20, 1])}", "📚")
 
 url5 = config['url_pendidikan']
-pdik23 = pd.DataFrame(conn.read(spreadsheet=url5)).iloc[0:6, 0:4]
+pdik23 = pd.DataFrame(conn.read(spreadsheet=url5, ttl=0)).iloc[0:6, 0:4]
 pdik23.index = list(pdik23.iloc[0:6, 0])
 pdik23 = pdik23.iloc[0:6, 1:4]
 
@@ -216,7 +216,7 @@ st.markdown("---")
 section_header(f"Penduduk Menurut Etnis Tahun {int(datadesa.iloc[20, 1])}", "🌍")
 
 url6 = config['url_etnis']
-et23 = pd.DataFrame(conn.read(spreadsheet=url6))
+et23 = pd.DataFrame(conn.read(spreadsheet=url6, ttl=0))
 et23.index = list(et23.iloc[0:21, 0])
 et23 = et23.iloc[0:20, 1:4]
 
@@ -253,7 +253,7 @@ st.markdown("---")
 section_header(f"Penduduk Menurut Agama Tahun {int(datadesa.iloc[19, 1])}", "🕊️")
 
 url7 = config['url_agama']
-agam23 = pd.DataFrame(conn.read(spreadsheet=url7))
+agam23 = pd.DataFrame(conn.read(spreadsheet=url7, ttl=0))
 agam23.index = list(agam23.iloc[0:9, 0])
 agam23 = agam23.iloc[0:8, 1:4]
 
