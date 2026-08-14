@@ -76,16 +76,16 @@ st.write(f"## 📊 Rekap Data {config['label_wilayah']} {config['nmdesa']}")
 
 col_kk, col_jp, col_lk, col_pr = st.columns(4)
 col_kk.metric(label="Total KK",              value="📋 " + str(int(datap2024.iloc[18, 1])))
-col_jp.metric(label="Total Penduduk (jiwa)", value="🚻 " + str(int(jp2024)))
-col_lk.metric(label="Penduduk Laki-laki",   value="🚹 " + str(pd2024laki))
-col_pr.metric(label="Penduduk Perempuan",   value="🚺 " + str(pd2024pere))
+col_jp.metric(label="Total Penduduk (jiwa)", value="🚻 " + str(int(datap2024.iloc[19, 1])))
+col_lk.metric(label="Penduduk Laki-laki",   value="🚹 " + str(int(datap2024.iloc[20, 1])))
+col_pr.metric(label="Penduduk Perempuan",   value="🚺 " + str(int(datap2024.iloc[21, 1])))
 
 metric_row_spacer()
 st.write(
-    f"Berdasarkan data Kemendagri, jumlah KK di {config['nmdesa']} tahun "
+    f"Berdasarkan data desa, jumlah KK di {config['nmdesa']} tahun "
     f"{int(datadesa.iloc[20,1])} sebanyak **{int(datap2024.iloc[18,1])}**, "
-    f"dengan total penduduk **{int(jp2024)} jiwa** "
-    f"(Laki-laki: {pd2024laki} | Perempuan: {pd2024pere})."
+    f"dengan total penduduk **{int(datap2024.iloc[19, 1])} jiwa** "
+    f"(Laki-laki: {int(datap2024.iloc[19, 1])} | Perempuan: {int(datap2024.iloc[19, 1])})."
 )
 
 st.markdown("---")
