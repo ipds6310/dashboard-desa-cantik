@@ -47,9 +47,9 @@ t2.markdown(f"**Halaman Kependudukan {config['nmdesa']}**")
 
 st.markdown("---")
 
-# ── Data Penduduk 2024 ─────────────────────────────────────────────
+# ── Data Penduduk 2024 ─────────────────────────────────────────────────
 section_header("Penduduk Berdasarkan Jenis Kelamin dan Kelompok Usia", "👥")
-pilih1 = st.radio('Tahun :', [str(int(datadesa.iloc[18, 1])), str(int(datadesa.iloc[19, 1]))], horizontal=True)
+pilih1 = st.radio('Tahun :', [str(int(datadesa.iloc[18, 1]))])
 
 url2 = config['url_penduduk']
 datap2024 = pd.DataFrame(conn.read(spreadsheet=url2, ttl=0))
@@ -57,34 +57,60 @@ datap2024.iloc[:, 1] = pd.to_numeric(datap2024.iloc[:, 1], errors='coerce')
 datap2024.iloc[:, 2] = pd.to_numeric(datap2024.iloc[:, 2], errors='coerce')
 jp2024 = datap2024.iloc[0:16, 1:3].sum().sum()
 
+datapiramida = datap2024.iloc[0:16, 1:3].copy()
+jk = ["Laki-laki", "Perempuan"]
+datapiramida.iloc[0:16, 0] = -datapiramida.iloc[0:16, 0]
+datapiramida.index = list(datap2024.iloc[0:16, 0])
+datapiramida.columns = jk
+
 url3 = config['url_penduduk_2023']
 datap2023 = pd.DataFrame(conn.read(spreadsheet=url3, ttl=0))
-datap2023.iloc[:, 1] = pd.to_numeric(datap2023.iloc[:, 1], errors='coerce')
-datap2023.iloc[:, 2] = pd.to_numeric(datap2023.iloc[:, 2], errors='coerce')
+jp2023 = datap2023.iloc[0:16, 1:3].sum().sum()
 
-# Ambil total penduduk dari baris rekap bawah (baris ke-21 / index 20)
-jp2023 = datap2023.iloc[20, 1]
-pd2023_laki = datap2023.iloc[21, 1]
-pd2023_pere = datap2023.iloc[22, 1]
+datapiramida2 = datap2023.iloc[0:16, 1:3].copy()
+datapiramida2.iloc[0:16, 0] = -datapiramida2.iloc[0:16, 0]
+datapiramida2.index = list(datap2023.iloc[0:16, 0])
+datapiramida2.columns = jk
+
+import altair as alt
 
 if pilih1 == str(int(datadesa.iloc[18, 1])):
+    data = pd.melt(datapiramida.reset_index(), id_vars=["index"])
+    chart = (
+        alt.Chart(data)
+        .mark_bar()
+        .encode(
+            x=alt.X("value", type="quantitative", title="", axis=alt.Axis(labels=False)),
+            y=alt.Y("index", type="nominal", title="Usia", sort="descending"),
+            color=alt.Color("variable", type="nominal", title=""),
+        )
+    )
+    st.altair_chart(chart, use_container_width=True)
     c1, c2, c3 = st.columns(3)
-    c1.metric("Total Penduduk", str(int(jp2024)) + " jiwa")
-    c2.metric("Laki-laki", str(int(datap2024.iloc[0:16, 1].sum())) + " jiwa")
-    c3.metric("Perempuan", str(int(datap2024.iloc[0:16, 2].sum())) + " jiwa")
-    
+    c1.metric("Total Penduduk",      str(int(jp2024))                        + " jiwa")
+    c2.metric("Laki-laki",           str(int(datap2024.iloc[0:16, 1].sum())) + " jiwa")
+    c3.metric("Perempuan",           str(int(datap2024.iloc[0:16, 2].sum())) + " jiwa")
     with st.expander("Lihat Tabel"):
         st.dataframe(datap2024.iloc[0:16, 0:3], use_container_width=True, hide_index=True)
 
 elif pilih1 == str(int(datadesa.iloc[19, 1])):
+    data2 = pd.melt(datapiramida2.reset_index(), id_vars=["index"])
+    chart2 = (
+        alt.Chart(data2)
+        .mark_bar()
+        .encode(
+            x=alt.X("value", type="quantitative", title="", axis=alt.Axis(labels=False)),
+            y=alt.Y("index", type="nominal", title="Usia", sort="descending"),
+            color=alt.Color("variable", type="nominal", title=""),
+        )
+    )
+    st.altair_chart(chart2, use_container_width=True)
     c1, c2, c3 = st.columns(3)
-    c1.metric("Total Penduduk", str(int(jp2023)) + " jiwa")
-    c2.metric("Laki-laki", str(int(pd2023_laki)) + " jiwa")
-    c3.metric("Perempuan", str(int(pd2023_pere)) + " jiwa")
-    
+    c1.metric("Total Penduduk", str(int(jp2023))                              + " jiwa")
+    c2.metric("Laki-laki",      str(int(datap2023.iloc[0:16, 1].sum().sum())) + " jiwa")
+    c3.metric("Perempuan",      str(int(datap2023.iloc[0:16, 2].sum().sum())) + " jiwa")
     with st.expander("Lihat Tabel"):
-        # Menampilkan data rekap per RT (baris 1 s.d 14 / index 0:14)
-        st.dataframe(datap2023.iloc[0:14, 0:3], use_container_width=True, hide_index=True)
+        st.dataframe(datap2023.iloc[0:16, 0:3], use_container_width=True, hide_index=True)
 
 st.markdown("---")
 
