@@ -124,9 +124,13 @@ top5 = pt23.sort_values(by=pt23.columns[1], ascending=False).head(5)
 section_header("5 Komoditas Hasil Panen Tertinggi", "🌟")
 cols = st.columns(5)
 for i, (idx, row) in enumerate(top5.iterrows()):
+    # Gunakan .iloc[0] dan .iloc[1] agar mengambil berdasarkan posisi kolom
+    luas_panen = row.iloc[0]
+    produksi = row.iloc[1]
+    
     cols[i].metric(
-        label=f"{idx}\n({row[0]} Ha)",
-        value=f"{row[1]} Ton/Ha"
+        label=f"{idx}\n({luas_panen} Ha)",
+        value=f"{produksi} Ton/Ha"
     )
 
 st.markdown("---")
