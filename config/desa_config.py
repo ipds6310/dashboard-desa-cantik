@@ -79,7 +79,7 @@ DESA_CONFIG = {
         "website": "https://sungaidua.website.desa.id/",
 
         "logo": "logo pemkab tanbu.png",
-        "foto": "kelgunting.jpeg",
+        "foto": "sungaidua.jpeg",
         "label_wilayah": "Desa",
 
         # DATA UMUM
