@@ -89,6 +89,25 @@ st.markdown("---")
 section_header("Publikasi Tersedia", "📚")
 st.markdown("<div style='height:0.5rem'></div>", unsafe_allow_html=True)
 
+# ── Helper Convert Gambar Lokal ke Base64 ─────────────────────────────
+import os
+
+def get_image_src(image_path):
+    # Jika berupa URL internet (http/https), pakai langsung
+    if str(image_path).startswith("http://") or str(image_path).startswith("https://"):
+        return image_path
+    
+    # Jika file lokal ada, konversi ke base64
+    if os.path.exists(image_path):
+        with open(image_path, "rb") as img_file:
+            encoded = base64.b64encode(img_file.read()).decode()
+            ext = image_path.split('.')[-1].lower()
+            mime = "jpeg" if ext in ["jpg", "jpeg"] else "png"
+            return f"data:image/{mime};base64,{encoded}"
+    
+    # Fallback jika gambar tidak ditemukan
+    return ""
+
 # ── Grid Publikasi ─────────────────────────────────────────────────────
 i = 0
 while i < len(publikasi):
@@ -99,12 +118,14 @@ while i < len(publikasi):
         if idx < len(publikasi):
             judul = str(publikasi.iloc[idx, 0])
             link  = str(publikasi.iloc[idx, 1])
-            cover = str(publikasi.iloc[idx, 3])
+            cover_path = str(publikasi.iloc[idx, 3])
+
+            cover_src = get_image_src(cover_path)
 
             with cols[j]:
                 st.markdown(f"""
                 <div class="pub-card">
-                    <img src="{cover}" alt="{judul}"/>
+                    <img src="{cover_src}" alt="{judul}"/>
                     <div class="pub-title">{judul}</div>
                     <div class="pub-link"><a href="{link}" target="_blank">⬇️ Unduh Publikasi</a></div>
                 </div>
@@ -113,7 +134,7 @@ while i < len(publikasi):
             cols[j].write("")
 
     i += 3
-
+    
 # ── Sidebar ────────────────────────────────────────────────────────────
 with st.sidebar:
     st.header(f"Unduh Publikasi {config['nmdesa']}")
