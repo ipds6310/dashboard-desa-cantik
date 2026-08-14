@@ -78,7 +78,7 @@ config = pilih_desa_sidebar()
 
 # ── Koneksi Data ───────────────────────────────────────────────────────
 conn = st.connection("gsheets", type=GSheetsConnection)
-publikasi = pd.DataFrame(conn.read(spreadsheet=config['url_buku']))
+publikasi = pd.DataFrame(conn.read(spreadsheet=config['url_buku'], ttl=0))
 
 # ── Header Halaman ─────────────────────────────────────────────────────
 t1, t2 = st.columns((0.18, 1))
