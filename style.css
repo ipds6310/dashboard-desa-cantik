@@ -1,0 +1,219 @@
+/* =============================================
+   Dashboard Desa Cantik - Custom CSS Styling
+   ============================================= */
+
+/* --- Global Reset & Base --- */
+[data-testid="stAppViewContainer"] {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* --- Main Content Padding --- */
+.block-container {
+    padding-top: 1.5rem !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    max-width: 1200px !important;
+}
+
+/* --- Header Section (Logo + Judul) --- */
+[data-testid="column"] img {
+    border-radius: 10px;
+}
+
+/* --- Metric Cards --- */
+[data-testid="stMetric"] {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 1rem 1.25rem !important;
+    transition: box-shadow 0.2s ease;
+}
+
+[data-testid="stMetric"]:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+[data-testid="stMetricLabel"] {
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #6c757d !important;
+}
+
+[data-testid="stMetricValue"] {
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+}
+
+/* --- Divider between sections --- */
+hr {
+    border: none;
+    border-top: 1px solid #dee2e6;
+    margin: 1.5rem 0;
+}
+
+/* --- Section Headers (h1, h2, h3) --- */
+h1 {
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+    margin-top: 2rem !important;
+    margin-bottom: 0.75rem !important;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+h2 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+h3 {
+    font-size: 1.05rem !important;
+    font-weight: 600 !important;
+}
+
+/* --- Dataframe / Table --- */
+[data-testid="stDataFrame"] {
+    border-radius: 10px !important;
+    overflow: hidden;
+    border: 1px solid #dee2e6 !important;
+}
+
+/* --- Expander --- */
+[data-testid="stExpander"] {
+    border: 1px solid #dee2e6 !important;
+    border-radius: 10px !important;
+    overflow: hidden;
+}
+
+[data-testid="stExpander"] summary {
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+    background-color: #f8f9fa;
+}
+
+/* --- Checkbox --- */
+[data-testid="stCheckbox"] label {
+    font-size: 0.88rem !important;
+    color: #495057;
+}
+
+/* --- Radio Buttons --- */
+[data-testid="stRadio"] label {
+    font-size: 0.88rem !important;
+}
+
+[data-testid="stRadio"] > div {
+    gap: 0.5rem !important;
+}
+
+/* --- Sidebar Styling --- */
+[data-testid="stSidebar"] {
+    background-color: #f8f9fa !important;
+    border-right: 1px solid #dee2e6;
+}
+
+[data-testid="stSidebar"] .block-container {
+    padding: 1rem !important;
+}
+
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    font-size: 1rem !important;
+    border-bottom: none !important;
+    margin-top: 0.5rem !important;
+}
+
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span {
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+    color: #6c757d !important;
+}
+
+/* --- Selectbox --- */
+[data-testid="stSelectbox"] {
+    margin-bottom: 0.5rem;
+}
+
+[data-testid="stSelectbox"] > div > div {
+    border-radius: 8px !important;
+    border-color: #ced4da !important;
+    font-size: 0.9rem !important;
+}
+
+/* --- Map Container --- */
+.stMapElement, iframe {
+    border-radius: 12px !important;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+}
+
+/* --- Altair Charts --- */
+.vega-embed {
+    border-radius: 10px !important;
+    padding: 0.5rem !important;
+    background: #ffffff !important;
+    border: 1px solid #e9ecef;
+}
+
+/* --- Column Gap --- */
+[data-testid="column"] {
+    padding: 0 0.4rem !important;
+}
+
+/* --- Image rounded --- */
+img {
+    border-radius: 8px;
+}
+
+/* --- Text paragraph styling --- */
+p {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: #343a40;
+}
+
+/* --- Badge / label chips (in markdown) --- */
+.badge {
+    display: inline-block;
+    padding: 0.2em 0.65em;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 6px;
+    background: #e9ecef;
+    color: #495057;
+}
+
+/* --- Top header bar condensed --- */
+header[data-testid="stHeader"] {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* --- Streamlit "running" indicator hide on prod --- */
+[data-testid="stStatusWidget"] {
+    display: none;
+}
+
+/* --- Info/warning/error boxes --- */
+[data-testid="stAlert"] {
+    border-radius: 10px !important;
+    border-left-width: 4px !important;
+    font-size: 0.88rem !important;
+}
+
+/* --- Download button --- */
+[data-testid="stDownloadButton"] button {
+    border-radius: 8px !important;
+    font-size: 0.88rem !important;
+    font-weight: 500 !important;
+}
