@@ -44,7 +44,7 @@ DESA_CONFIG = {
         "label_wilayah": "Desa",
 
         "logo": "logo pemkab tanbu.png",
-        "foto": "kelgunting.jpeg",
+        "foto": "desasargad.jpeg",
 
        # DATA UMUM
         "url_data": "https://docs.google.com/spreadsheets/d/17WYCmQwopO0Zxjmnl9K4jwssZWVNuqtWQuOLBlglwDc/edit?usp=sharing",
