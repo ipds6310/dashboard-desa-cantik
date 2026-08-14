@@ -48,7 +48,7 @@ t2.markdown(f"**Halaman Data Fasilitas Umum {config['nmdesa']}**")
 st.markdown("---")
 
 # ── Load data fasilitas ────────────────────────────────────────────────
-fas23 = pd.DataFrame(conn.read(spreadsheet=config['url_fasilitas'], ttl=0)).iloc[1:107, 0:3]
+fas23 = pd.DataFrame(conn.read(spreadsheet=config['url_fasilitas'], ttl=0)).iloc[1:108, 0:3]
 
 # ── Fasilitas Pendidikan ───────────────────────────────────────────────
 section_header("Fasilitas Pendidikan", "🎓")
